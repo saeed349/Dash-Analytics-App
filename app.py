@@ -10,8 +10,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 dfPool = pd.read_csv('6_ml_log.csv')
 # to display first item when page loaded
-currencyPairs = list(set(dfPool[dfPool.columns[0]]))
-df = (dfPool[dfPool['security'] == currencyPairs[0]])
+currencyPairs = list(set(dfPool[dfPool.columns[0]])) #reading distict currency pairs/security
+df = (dfPool[dfPool['security'] == currencyPairs[0]]) #reading first security data for initial rendering
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
@@ -22,11 +22,11 @@ for col in df.columns:
     if (col not in ['security', 'datetime', 'open', 'high', 'low', 'close']):
         indicators.append(col)
 
-indicatorMap = [1 for x in indicators]
+indicatorMap = [1 for x in indicators] #for mapping into rowsize vector for allocating height
 
-try :
-    indicatorMap.remove(1)
-except ValueError :
+try:
+    indicatorMap.remove(1)  #for removing an item that represents candle stick
+except ValueError:
     pass
 
 Currentfig = make_subplots(
@@ -70,21 +70,34 @@ app.layout = dhc.Div(children=[
 def updatePlot(securityValue, indicatorValues):
     df = (dfPool[dfPool['security'] == securityValue])
     rowWidth = [0.4/len(indicators) for x in indicators]
-    rowWidth.append(0.6)
+    rowWidth.append(0.8)
+    # rowWidth.append(0.6)
+    # specs =  [[{"rowspan": 2}], [None], [{}], [{}], [{}]]
+    # print (len(specs[0]))
     # rowWidth.reverse()
-    print (rowWidth)
+    # print (rowWidth)
     fig = make_subplots(
         rows=len(indicators)+1, cols=1, shared_xaxes=True, vertical_spacing=0.1,
         # row_width=list(map(lambda x: x / len(indicatorValues),
         #                    [1 for y in indicatorValues])).append(0.9) if indicatorValues else 0.9
-        row_width=rowWidth
+        row_width=rowWidth,
+        # specs=specs,
+
     )
 
     fig.add_trace(go.Candlestick(x=df['datetime'],
                                  open=df['open'], high=df['high'],
                                  low=df['low'], close=df['close'], name=securityValue), row=1, col=1)
 
-    rowIndex = 2
+    fig.update_layout(xaxis_rangeslider_visible=False, yaxis=dict(
+        autorange=True,
+        fixedrange=False
+    ),
+        xaxis={'type': 'category', 'categoryorder': 'category ascending'},
+        # yaxis2_domain = [0, 1]
+    )
+
+    rowIndex = 3
     if (indicatorValues):
         for i in indicatorValues:
             fig.add_trace(go.Scatter(
