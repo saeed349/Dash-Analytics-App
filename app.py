@@ -97,7 +97,7 @@ def updatePlot(securityValue, indicatorValues):
         # yaxis2_domain = [0, 1]
     )
 
-    rowIndex = 3
+    rowIndex = 2
     if (indicatorValues):
         for i in indicatorValues:
             fig.add_trace(go.Scatter(
