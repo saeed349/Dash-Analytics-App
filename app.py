@@ -63,7 +63,6 @@ def updatePlot(securityValue, indicatorValues):
     rowWidth.append(0.8)
     # rowWidth.append(0.6)
     # specs =  [[{"rowspan": 2}], [None], [{}], [{}], [{}]]
-    # print (len(specs[0]))
     fig = make_subplots(
         rows=len(indicators)+1, cols=1, shared_xaxes=True, vertical_spacing=0.1,
         row_width=rowWidth,
