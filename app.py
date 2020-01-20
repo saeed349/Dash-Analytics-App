@@ -37,20 +37,10 @@ Currentfig.add_trace(go.Candlestick(x=df['datetime'],
                                     open=df['open'], high=df['high'],
                                     low=df['low'], close=df['close']))
 
-# for i in indicators:
-#     fig.add_trace(go.Scatter(x=df['datetime'], y=df[i], mode='lines'))
-
-
 ##########################################
 app.layout = dhc.Div(children=[
     dcc.Graph(
         id="plot-candle",
-        # figure={
-        #     'data': [go.Candlestick(x=df['datetime'],
-        #                             open=df['open'], high=df['high'],
-        #                             low=df['low'], close=df['close'])
-        #              ]
-        # },
         figure=Currentfig
 
     ),
@@ -69,17 +59,13 @@ app.layout = dhc.Div(children=[
 )
 def updatePlot(securityValue, indicatorValues):
     df = (dfPool[dfPool['security'] == securityValue])
-    rowWidth = [0.4/len(indicators) for x in indicators]
+    rowWidth = [0.2/len(indicators) for x in indicators]
     rowWidth.append(0.8)
     # rowWidth.append(0.6)
     # specs =  [[{"rowspan": 2}], [None], [{}], [{}], [{}]]
     # print (len(specs[0]))
-    # rowWidth.reverse()
-    # print (rowWidth)
     fig = make_subplots(
         rows=len(indicators)+1, cols=1, shared_xaxes=True, vertical_spacing=0.1,
-        # row_width=list(map(lambda x: x / len(indicatorValues),
-        #                    [1 for y in indicatorValues])).append(0.9) if indicatorValues else 0.9
         row_width=rowWidth,
         # specs=specs,
 
@@ -98,7 +84,7 @@ def updatePlot(securityValue, indicatorValues):
     )
 
     rowIndex = 2
-    if (indicatorValues):
+    if (indicatorValues):    #rendering indicator plots based on dropdown 
         for i in indicatorValues:
             fig.add_trace(go.Scatter(
                 x=df['datetime'], y=df[i], mode='lines', name=i), row=rowIndex, col=1)
@@ -107,18 +93,6 @@ def updatePlot(securityValue, indicatorValues):
     figure = Currentfig = fig
 
     return figure
-
-# @app.callback(
-#     Output('plot-candle', 'figure'),
-#     [Input('dropdown-indicators', 'value')]
-# )
-# def updateIndicators(value):
-
-#     for i in indicators:
-#         fig.add_trace(go.Scatter(
-#             x=df['datetime'], y=df[value], mode='lines', name=value), row=rowIndex, col=1)
-#         rowIndex += 1
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
