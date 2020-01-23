@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import flask
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -12,7 +13,13 @@ dfPool = pd.read_csv('6_ml_log.csv')
 # to display first item when page loaded
 currencyPairs = list(set(dfPool[dfPool.columns[0]])) #reading distict currency pairs/security
 df = (dfPool[dfPool['security'] == currencyPairs[0]]) #reading first security data for initial rendering
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+server = flask.Flask(__name__)
+app = dash.Dash(
+    __name__,
+    server=server,
+    external_stylesheets=external_stylesheets
+)
 
 
 ######processing intitial figure nnd indicators#########
@@ -94,4 +101,13 @@ def updatePlot(securityValue, indicatorValues):
     return figure
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    
+    import os
+
+    debug = False if os.environ['DASH_DEBUG_MODE'] == 'False' else True
+
+    app.run_server(
+        host='0.0.0.0',
+        port=8050,
+        debug=debug
+    )
