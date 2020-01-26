@@ -21,7 +21,7 @@ app = dash.Dash(
     external_stylesheets=external_stylesheets
 )
 
-
+# Testing commit for CI/CD
 ######processing intitial figure nnd indicators#########
 
 indicators = []
