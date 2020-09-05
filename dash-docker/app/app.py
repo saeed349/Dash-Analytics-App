@@ -9,7 +9,7 @@ import flask
 #test
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-dfPool = pd.read_csv('app/6_ml_log.csv')
+dfPool = pd.read_csv('6_ml_log.csv')
 # to display first item when page loaded
 currencyPairs = list(set(dfPool[dfPool.columns[0]])) #reading distict currency pairs/security
 df = (dfPool[dfPool['security'] == currencyPairs[0]]) #reading first security data for initial rendering
@@ -21,7 +21,8 @@ app = dash.Dash(
     external_stylesheets=external_stylesheets
 )
 
-
+# Testing commit for CI/CD - Production 2
+######processing intitial figure nnd indicators#########
 
 indicators = []
 for col in df.columns:
@@ -100,13 +101,13 @@ def updatePlot(securityValue, indicatorValues):
     return figure
 
 if __name__ == '__main__':
-    # test
+    
     import os
 
-    # debug = False if os.environ['DASH_DEBUG_MODE'] == 'False' else True
+    debug = False if os.environ['DASH_DEBUG_MODE'] == 'False' else True
 
     app.run_server(
         host='0.0.0.0',
         port=8080,
-        debug=False
+        debug=debug
     )
