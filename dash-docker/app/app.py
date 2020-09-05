@@ -100,7 +100,7 @@ def updatePlot(securityValue, indicatorValues):
     return figure
 
 if __name__ == '__main__':
-    
+    # test
     import os
 
     # debug = False if os.environ['DASH_DEBUG_MODE'] == 'False' else True
