@@ -5,7 +5,7 @@ ENV DASH_DEBUG_MODE True
 RUN set -ex && \
     pip install dash dash-daq dash-bootstrap-components pandas
 
-EXPOSE 80
+EXPOSE 8080
 
 COPY ./app /app
 
