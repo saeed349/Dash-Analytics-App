@@ -6,6 +6,11 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import flask
+
+import dash_auth
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'hello': 'world'
+}
 #test
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -20,7 +25,10 @@ app = dash.Dash(
     server=server,
     external_stylesheets=external_stylesheets
 )
-
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 # Testing commit for CI/CD - Production 2
 ######processing intitial figure nnd indicators#########
 
