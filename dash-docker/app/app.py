@@ -8,6 +8,7 @@ from plotly.subplots import make_subplots
 import flask
 
 import dash_auth
+
 VALID_USERNAME_PASSWORD_PAIRS = {
     'hello': 'world'
 }
@@ -23,7 +24,7 @@ server = flask.Flask(__name__)
 app = dash.Dash(
     __name__,
     server=server,
-    external_stylesheets=external_stylesheets
+    external_stylesheets=external_stylesheets   
 )
 auth = dash_auth.BasicAuth(
     app,

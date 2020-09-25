@@ -1,0 +1,5 @@
+dash 
+dash-daq
+dash-bootstrap-components
+pandas
+dash_auth
