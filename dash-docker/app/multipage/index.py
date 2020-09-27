@@ -12,6 +12,13 @@ app.layout = html.Div([
 ])
 
 
+index_page = html.Div([
+    dcc.Link('App1', href='/apps/app1'),
+    html.Br(),
+    dcc.Link('App2', href='/apps/app2'),
+])
+
+
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
@@ -20,7 +27,8 @@ def display_page(pathname):
     elif pathname == '/apps/app2':
         return app2.layout
     else:
-        return '404'
+        # return '404'
+        return index_page
 
 # if __name__ == '__main__':
 #     app.run_server(debug=True)

@@ -9,8 +9,10 @@ RUN pip install --requirement /tmp/requirements.txt
 
 EXPOSE 8080
 
-COPY ./app /app
+# COPY ./app /app
+COPY ./app/multipage /app
 
 WORKDIR /app
 
-CMD ["python", "app.py"]
+# CMD ["python", "app.py"]
+CMD ["python", "index.py"]
